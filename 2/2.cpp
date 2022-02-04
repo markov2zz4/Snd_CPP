@@ -36,7 +36,7 @@ int n1()
     return 0;
 }
 
-int readTime(char* iStr = '\0', int* oHours = '\0', int* oMinutes = '\0', int* oSeconds = '\0') {
+int readTime(char* iStr, int* oHours, int* oMinutes, int* oSeconds) {
 
     if (*oHours < 0 || *oHours > 23)
         throw "Invalid Argument";
