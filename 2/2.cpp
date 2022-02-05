@@ -1,72 +1,82 @@
 ﻿#include <iostream>
 #include <cstring>
 #include <iomanip>
-
+#include <stdio.h>
+#include <stddef.h>
 
 using namespace std;
 
-void printTime(const int h, const int m, const int s) {
 
-    if (h < 0 || h > 23)
-        throw "Invalid Argument";
-    if (m < 0 || m > 59)
-        throw "Invalid Argument";
-    if (s < 0 || s > 59)
-        throw "Invalid Argument";
+int readTime(const char* iStr, int* ptrH, int* ptrM, int* ptrS) {
 
-    cout << setw(2) << setfill('0') << h << ":";
-    cout << setw(2) << setfill('0') << m << ":";
-    cout << setw(2) << setfill('0') << s << endl;
-}
-
-int n1()
-{
-    int N;
-    cin >> N;
-
-    int h, m, s;
-
-    for (int i{ 0 }; i < N; ++i) {
-        cin >> h >> m >> s;
+    short int result = 1;
 
 
-
-        printTime(h, m, s);
-    }
-    return 0;
-}
-
-int readTime(char* iStr, int* oHours, int* oMinutes, int* oSeconds) {
-
-    if (*oHours < 0 || *oHours > 23)
-        throw "Invalid Argument";
-    if (*oMinutes < 0 || *oMinutes > 59)
-        throw "Invalid Argument";
-    if (*oSeconds < 0 || *oSeconds > 59)
-        throw "Invalid Argument";
-
-    return 0;
-}
-
-int n2() {
-    char time[255];
-    char H[255];
-    char M[255];
-    char S[255];
-
-    cin >> H >> M >> S;
-
-#if 0
-    for (int i = 0; i < strlen(time); i++)
+    for (int i = 0; i < strlen(iStr); i++)
     {
-        cout << *(ptrTime + i);
+        if (iStr[i] == unsigned char(124) || iStr[i+1] == unsigned char(124))
+            result = -1;
+        break;
     }
-#endif
 
+    //Invalid Arguments
+    if ((*ptrH < 0 || *ptrH > 23) || (*ptrM < 0 || *ptrM > 59) || (*ptrS < 0 || *ptrS > 59) || result == -1) {
+        
+        result = 0;
+        *ptrH = -1, *ptrM = -1, *ptrS = -1;
+
+        cout << result << " " << *ptrH << " " << *ptrM << " " << *ptrS << endl;
+        ptrS = NULL;
+
+        cout << result << " " << *ptrH << " " << *ptrM << endl;
+        ptrM = NULL;
+
+        cout << result << " " << *ptrH << endl;
+        return 0;
+    }
+
+    else if (ptrM == NULL) {
+        ptrS = NULL;
+        cout << result << " " << *ptrH << endl;
+
+    }
+
+    else if (ptrS == NULL) {
+        cout << result << " " << *ptrH << " " << *ptrM << endl;
+    }
+        
+    else {
+        cout << result << " " << *ptrH << " " << *ptrM << " " << *ptrS << endl;
+        ptrS = NULL;
+
+        cout << result << " " << *ptrH << " " << *ptrM << endl;
+        ptrM = NULL;
+
+        cout << result << " " << *ptrH << endl;
+    }
 
     return 0;
 }
 
 int main() {
-    n2();
+
+
+    char time[255];
+    cin >> time;
+
+    int* ptrHours = NULL;
+    int* ptrMinutes = NULL;
+    int* ptrSeconds = NULL;
+
+    int H = 0, M = 0, S = 0;
+    sscanf(time, "%d:%d:%d", &H, &M, &S);
+
+    ptrHours = &H;
+    ptrMinutes = &M;
+    ptrSeconds = &S;
+
+    const char* ptrTime = time;
+    readTime(time, ptrHours, ptrMinutes, ptrSeconds);
+
+    return 0;
 }
