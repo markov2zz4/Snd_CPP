@@ -11,7 +11,6 @@ int readTime(const char* iStr, int* ptrH, int* ptrM, int* ptrS) {
 
     short int result = 1;
 
-
     for (int i = 0; i < strlen(iStr); i++)
     {
         if (iStr[i] == unsigned char(124) || iStr[i+1] == unsigned char(124))
@@ -35,16 +34,16 @@ int readTime(const char* iStr, int* ptrH, int* ptrM, int* ptrS) {
         return 0;
     }
 
+    else if (ptrS == NULL) {
+        cout << result << " " << *ptrH << " " << *ptrM << endl;
+    }
+        
     else if (ptrM == NULL) {
         ptrS = NULL;
         cout << result << " " << *ptrH << endl;
 
     }
 
-    else if (ptrS == NULL) {
-        cout << result << " " << *ptrH << " " << *ptrM << endl;
-    }
-        
     else {
         cout << result << " " << *ptrH << " " << *ptrM << " " << *ptrS << endl;
         ptrS = NULL;
@@ -55,7 +54,7 @@ int readTime(const char* iStr, int* ptrH, int* ptrM, int* ptrS) {
         cout << result << " " << *ptrH << endl;
     }
 
-    return 0;
+
 }
 
 int main() {
@@ -63,6 +62,8 @@ int main() {
 
     char time[255];
     cin >> time;
+
+    const char* ptrTime = time;
 
     int* ptrHours = NULL;
     int* ptrMinutes = NULL;
@@ -75,7 +76,6 @@ int main() {
     ptrMinutes = &M;
     ptrSeconds = &S;
 
-    const char* ptrTime = time;
     readTime(time, ptrHours, ptrMinutes, ptrSeconds);
 
     return 0;
