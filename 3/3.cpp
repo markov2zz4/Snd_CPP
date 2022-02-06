@@ -15,57 +15,65 @@ void CheckRight(const int year, const int month, const int day, const int hours,
         throw "Invalid argument";
 }
 
-void DateTimeMin(DateTime_s** ptrAdr, const int rows) {
-
-    int minY = 5000, minMonth = 12, minD = 31;
-    int minH = 24, minMinutes = 60, minS = 60;
-    //int...
-
-    int index = 0;
-    for (int i = 0; i < rows; i++)
-    {
-        //DateTime_s* min = ptrAddresses[i];
-
-        if (ptrAdr[i]->year <= minY)
-            minY = ptrAdr[i]->year;
-
-        if (ptrAdr[i]->month <= minMonth)
-            minMonth = ptrAdr[i]->month;
-
-        if (ptrAdr[i]->day <= minD)
-            minD = ptrAdr[i]->day;
-
-        if (ptrAdr[i]->hours <= minH)
-            minH = ptrAdr[i]->hours;
-
-        if (ptrAdr[i]->minutes <= minMinutes)
-            minMinutes = ptrAdr[i]->minutes;
-
-        else if (ptrAdr[i]->seconds <= minS)
-            minS = ptrAdr[i]->seconds;
-        index = i;
-        
-    }  
-
-    cout << ptrAdr[index]->year << " " << ptrAdr[index]->month << " " << ptrAdr[index]->day << " ";
-    cout << ptrAdr[index]->hours << " " << ptrAdr[index]->minutes << " " << ptrAdr[index]->seconds << endl;
-
-}
-
 DateTime_s** CreateArrayStruct(const int rows) {
 
     DateTime_s* ptrDTime = new DateTime_s[rows];
-    DateTime_s** ptrAddresses = new DateTime_s*[rows];
+    DateTime_s** ptrAddresses = new DateTime_s * [rows];
 
     for (int i = 0; i < rows; i++) {
         cin >> ptrDTime[i].year >> ptrDTime[i].month >> ptrDTime[i].day >> ptrDTime[i].hours >> ptrDTime[i].minutes >> ptrDTime[i].seconds;
-        CheckRight(ptrDTime[i].year, ptrDTime[i].month, ptrDTime[i].day ,ptrDTime[i].hours, ptrDTime[i].minutes, ptrDTime[i].seconds);
+        CheckRight(ptrDTime[i].year, ptrDTime[i].month, ptrDTime[i].day, ptrDTime[i].hours, ptrDTime[i].minutes, ptrDTime[i].seconds);
     }
-    
+
     for (int j = 0; j < rows; j++)
         ptrAddresses[j] = &ptrDTime[j];
     return ptrAddresses;
+
+
+}
+
+unsigned long long int CountSeconds(DateTime_s* ptrAdr) {
+    int DaysInMonth[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 };
+    int DaysQuan{ 365 };
+
+    unsigned long long Result{ 0 };
+
+    if (ptrAdr->year % 4 == 0) {
+        DaysInMonth[1]++;
+        DaysQuan++;
+    }
+    Result = (unsigned long long)ptrAdr->year * DaysQuan;
+    for (int i{ 0 }; i < ptrAdr->month - 1; i++) {
+        Result += DaysInMonth[i];
+    }
+    Result += ptrAdr->day;
+    Result = Result * 24 + ptrAdr->hours;
+    Result = Result * 60 + ptrAdr->minutes;
+    Result = Result * 60 + ptrAdr->seconds;
+    return Result;
+}
+
+void DateTimeMin(DateTime_s** ptrAdr, const int rows) {
+
+    unsigned long long int* SumTimes = new unsigned long long[rows] {0};
+    int k{ 0 }, index{0};
+
+    for (int i = 0; i < rows; i++)
+        SumTimes[i] = CountSeconds(ptrAdr[i]);
+
+    unsigned long long minTime = SumTimes[0];
+
+    for (k = 0; k < rows; k++) {
+        if (minTime > SumTimes[k]) {
+            minTime = SumTimes[k];
+            index = k;
+        }
+    }
     
+    cout << ptrAdr[index]->year << " " << ptrAdr[index]->month << " " << ptrAdr[index]->day << " ";
+    cout << ptrAdr[index]->hours << " " << ptrAdr[index]->minutes << " " << ptrAdr[index]->seconds << endl;
+
+
 }
 
 int main()
