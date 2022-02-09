@@ -1,6 +1,4 @@
 ﻿#include <iostream>
-#include <sstream>
-#include <cstring>
 
 using namespace std;
 
@@ -87,7 +85,7 @@ int main() {
 	int fields;
 	cin >> fields;
 
-	if (fields <= 1 || fields > 1000)
+	if (fields < 0 || fields > 1000)
 		throw "Invalid: an argument that is not valid.";
 
 	Label_s* oLabel{ CreateStruct(fields) };
