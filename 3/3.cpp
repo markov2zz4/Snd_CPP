@@ -32,25 +32,27 @@ DateTime_s** CreateArrayStruct(const int rows) {
 
 }
 
+
 unsigned long long int CountSeconds(DateTime_s* ptrAdr) {
     int DaysInMonth[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 };
-    int DaysQuan{ 365 };
+    int DaysInYear{ 365 };
 
-    unsigned long long Result{ 0 };
+    unsigned long long result{ 0 };
 
     if (ptrAdr->year % 4 == 0) {
         DaysInMonth[1]++;
-        DaysQuan++;
+        DaysInYear++;
     }
-    Result = (unsigned long long)ptrAdr->year * DaysQuan;
-    for (int i{ 0 }; i < ptrAdr->month - 1; i++) {
-        Result += DaysInMonth[i];
-    }
-    Result += ptrAdr->day;
-    Result = Result * 24 + ptrAdr->hours;
-    Result = Result * 60 + ptrAdr->minutes;
-    Result = Result * 60 + ptrAdr->seconds;
-    return Result;
+    result = (unsigned long long)ptrAdr->year * DaysInYear;
+    for (int i{ 0 }; i < ptrAdr->month - 1; i++)
+        result += DaysInMonth[i];
+
+    result += ptrAdr->day;
+    result = result * 24 + ptrAdr->hours;
+    result = result * 60 + ptrAdr->minutes;
+    result = result * 60 + ptrAdr->seconds;
+
+    return result;
 }
 
 void DateTimeMin(DateTime_s** ptrAdr, const int rows) {
@@ -83,7 +85,7 @@ int main()
     cin >> rows;
 
     if (rows < 2 || rows > 50000)
-        throw "Invalid argument";
+        throw "Invalid Argument";
 
     DateTime_s** ptrAddresses = CreateArrayStruct(rows);
     DateTimeMin(ptrAddresses, rows);

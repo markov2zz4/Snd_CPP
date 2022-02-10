@@ -1,10 +1,11 @@
 ﻿#include <iostream>
+#include <stdexcept>
 
 using namespace std;
 
 struct Label_s {
 
-	char name[16];
+	char name[16] = "";
 	int age = 0;
 
 };
@@ -21,9 +22,9 @@ struct AgeStats_s {
 
 void CheckRight(const char* name, const int age) {
 
-	for (int i{ 0 }; i < strlen(name); i++)
-		if (isdigit(name[i]))
-			throw "Invalid: an argument that is not valid.";
+	//for (int i{ 0 }; i < strlen(name); i++)
+		//if (isdigit(name[i]))
+			//throw "Invalid: an argument that is not valid.";
 
 	if (strlen(name) < 2 || strlen(name) > 15)
 		throw "Invalid: an argument that is not valid.";
@@ -85,15 +86,14 @@ int main() {
 	int fields;
 	cin >> fields;
 
-	if (fields < 0 || fields > 1000)
-		throw "Invalid: an argument that is not valid.";
-
 	Label_s* oLabel{ CreateStruct(fields) };
+
 	NameStats_s* oNameStats = new NameStats_s;
 	AgeStats_s* oAgeStats = new AgeStats_s;
 
 	calcStats(oLabel, oNameStats, oAgeStats, fields);
 	PrintStruct(oNameStats, oAgeStats);
+	return 0;
 	}
 	
 	
