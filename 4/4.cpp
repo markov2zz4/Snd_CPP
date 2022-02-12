@@ -42,6 +42,8 @@ void CheckRight(const int fields ,const char* name, const int age) {
 
 void calcStats(Label_s* oLabel, NameStats_s* oNameStats, AgeStats_s* oAgeStats, const int fields) {
 
+
+
 	int cntTotalAge{0}, cntAdults{ 0 }, cntKids{ 0 };
 	int cntTotalName{0}, cntLong{ 0 };
 
@@ -78,21 +80,23 @@ int main() {
 
 	int fields;
 	cin >> fields;
-	
+
 	const char* test = "Zoya";
 	cout << strlen(test);
 
 	char* waste = new char[fields];
 	Label_s* oLabel = new Label_s[fields];
 
-	for (int i = 0; i < fields; i++) {
-		cin >> oLabel[i].name >> oLabel[i].age >> waste;
-		CheckRight(fields, oLabel[i].name, oLabel[i].age);
-	}
+
+	if (fields < 1 || fields > 1000)
+		throw invalid_argument("Invalid: an argument that is not valid.");
 
 	try {
-		if (fields < 1 || fields > 1000)
-			throw invalid_argument("Invalid: an argument that is not valid.");
+		
+		for (int i = 0; i < fields; i++) {
+			cin >> oLabel[i].name >> oLabel[i].age >> waste;
+			CheckRight(fields, oLabel[i].name, oLabel[i].age);
+		}
 
 	}
 	catch (const invalid_argument &ex) // обработчик исключений типа const char*
