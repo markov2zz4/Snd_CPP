@@ -1,20 +1,52 @@
-﻿// 5.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
 
-#include <iostream>
+void calcLetters(char* iStr, int* oLowerCnt, int* oUpperCnt, int* oDigitsCnt) {
 
-int main()
-{
-    std::cout << "Hello World!\n";
+	for (int i = 0; i < (int)strlen(iStr); i++)
+	{
+		if (iStr[i] >= 'a' && iStr[i] <= 'z') *oLowerCnt += 1;
+		if (iStr[i] >= 'A' && iStr[i] <= 'Z') *oUpperCnt += 1;
+		if (iStr[i] >= '0' && iStr[i] <= '9') *oDigitsCnt += 1;
+	}
 }
 
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
+int main() {
+	const int size = 100 + 1;
+	char lines[size];
 
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
+	ifstream file("input.txt");
+	int i{ 0 };
+
+	int Lower{ 0 };
+	int Upper{ 0 };
+	int Digits{ 0 };
+	int len{ 0 };
+
+	while (true)
+	{
+		
+
+		i++;
+		file.getline(lines, size);
+
+		if (file.eof())
+			break;
+
+		len = 0;
+		Lower = 0; Upper = 0; Digits = 0;
+
+		len = strlen(lines);
+		calcLetters(lines, &Lower, &Upper, &Digits);
+
+		cout << "Line " << i << " has " << len << " chars: " << Lower + Upper << 
+		" are letters (" << Lower << " lower, " << Upper << " upper), " << Digits << " are digits." << endl;
+		
+		
+
+	}
+	file.close();
+	return 0;
+}
