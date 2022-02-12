@@ -81,9 +81,6 @@ int main() {
 	int fields;
 	cin >> fields;
 
-	const char* test = "Zoya";
-	cout << strlen(test);
-
 	char* waste = new char[fields];
 	Label_s* oLabel = new Label_s[fields];
 
