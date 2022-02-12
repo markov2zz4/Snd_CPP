@@ -1,53 +1,46 @@
 ﻿#include <iostream>
 #include <stdexcept>
+#include <cstring>
 
 using namespace std;
 
-struct Label_s {
+typedef struct Label_s {
 
 	char name[16] = "";
 	int age = 0;
 
-};
-struct NameStats_s {
+}Label;
+
+typedef struct NameStats_s {
 
 	int cntTotal, cntLong;
 
-};
-struct AgeStats_s {
+}NameStats;
+
+typedef struct AgeStats_s {
 
 	int cntTotal, cntAdults, cntKids;
 
-};
+}AgeStats;
 
-void CheckRight(const char* name, const int age) {
+void CheckRight(const int fields ,const char* name, const int age) {
+	auto i = 0;
 
-	//for (int i{ 0 }; i < strlen(name); i++)
-		//if (isdigit(name[i]))
-			//throw "Invalid: an argument that is not valid.";
-
-	if (strlen(name) < 2 || strlen(name) > 15)
-		throw "Invalid: an argument that is not valid.";
-	if (age < 0 || age > 5000)
-		throw "Invalid: an argument that is not valid.";
-}
-
-Label_s* CreateStruct(const int fields) {
-
-	Label_s* oLabel = new Label_s[fields];
-
-	char* waste = new char[fields * 3];
-
-	for (int i = 0; i < fields; i++) {
-		cin >> oLabel[i].name >> oLabel[i].age >> waste;
-		char* pName = oLabel[i].name;
-		CheckRight(pName, oLabel[i].age);
+	while (name[i])
+	{
+		if (name[i] >= '0' && name[i] <= '9') { throw invalid_argument("Invalid: an argument that is not valid."); }
+		i++;
 	}
-	return oLabel;
+
+	if (strlen(name) < 1 || strlen(name) > 15)
+		throw invalid_argument("Invalid: an argument that is not valid.");
+
+	if (age < 0 || age > 5000)
+		throw invalid_argument("Invalid: an argument that is not valid.");
 }
+
 
 void calcStats(Label_s* oLabel, NameStats_s* oNameStats, AgeStats_s* oAgeStats, const int fields) {
-
 
 	int cntTotalAge{0}, cntAdults{ 0 }, cntKids{ 0 };
 	int cntTotalName{0}, cntLong{ 0 };
@@ -85,8 +78,28 @@ int main() {
 
 	int fields;
 	cin >> fields;
+	
+	const char* test = "Zoya";
+	cout << strlen(test);
 
-	Label_s* oLabel{ CreateStruct(fields) };
+	char* waste = new char[fields];
+	Label_s* oLabel = new Label_s[fields];
+
+	for (int i = 0; i < fields; i++) {
+		cin >> oLabel[i].name >> oLabel[i].age >> waste;
+		CheckRight(fields, oLabel[i].name, oLabel[i].age);
+	}
+
+	try {
+		if (fields < 1 || fields > 1000)
+			throw invalid_argument("Invalid: an argument that is not valid.");
+
+	}
+	catch (const invalid_argument &ex) // обработчик исключений типа const char*
+	{
+		std::cerr << ex.what() << endl;
+	}
+
 
 	NameStats_s* oNameStats = new NameStats_s;
 	AgeStats_s* oAgeStats = new AgeStats_s;
