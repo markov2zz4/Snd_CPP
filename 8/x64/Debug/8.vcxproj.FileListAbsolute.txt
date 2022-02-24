@@ -1,2 +1,3 @@
 C:\Users\Alexandr\OneDrive\Рабочий стол\8\x64\Debug\8.exe
 D:\Work\Programming\Snd_CPP\8\x64\Debug\8.exe
+G:\C++ ()\Snd_CPP\8\x64\Debug\8.exe
